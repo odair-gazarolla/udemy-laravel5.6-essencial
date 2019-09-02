@@ -11,7 +11,10 @@
 |
 */
 
+use \App\User;
+
 Route::get('/', function () {
+
     return view('welcome');
 });
 
@@ -19,3 +22,7 @@ Route::get('hello/{name}', function($name) {
 
 	return view('hello', compact('name'));
 });
+
+// Route::get('/users', 'UserController@index');
+// Route::get('/users/{id}', 'UserController@show');
+Route::resource('/users', 'UserController');
