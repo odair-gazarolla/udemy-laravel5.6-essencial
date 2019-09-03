@@ -15,13 +15,14 @@ use \App\User;
 
 Route::get('/', function () {
 
-    return view('welcome');
+	$users = \App\User::where('id', '<', 15)->get();
+
+    return view('welcome', ['users' => $users]);
 });
 
-Route::get('hello/{name}', function($name) {
+Route::get('hello/{name?}', function($name = null) {
 
-	return redirect()->route("prod_single");
-	// return view('hello', compact('name'));
+	return view('hello', ['name' => $name]);
 });
 
 // Route::get('/users', 'UserController@index');
