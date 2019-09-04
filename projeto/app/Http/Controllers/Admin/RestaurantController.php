@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Restaurant;
 
 class RestaurantController extends Controller
 {
@@ -14,7 +15,9 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        return __METHOD__;
+        $restaurants = Restaurant::all();
+
+        return view('admin.restaurants.index', compact('restaurants'));
     }
 
     public function new()
@@ -40,7 +43,12 @@ class RestaurantController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $restaurantData = $request->all();
+
+        $restaurant = new Restaurant();
+        $restaurant->create($restaurantData);
+
+        return $this->redirectToIndex();
     }
 
     /**
@@ -60,9 +68,9 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Restaurant $restaurant)
     {
-        //
+        return view('admin.restaurants.edit', ['restaurant' => $restaurant]);
     }
 
     /**
@@ -74,7 +82,12 @@ class RestaurantController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $restaurantData = $request->all();
+
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->update($restaurantData);
+
+        return $this->redirectToIndex();
     }
 
     /**
@@ -85,6 +98,14 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $restaurant = Restaurant::findOrFail($id);
+        $restaurant->delete();
+
+        return $this->redirectToIndex();
+    }
+
+    private function redirectToIndex()
+    {
+        return redirect()->route('restaurant.index');
     }
 }

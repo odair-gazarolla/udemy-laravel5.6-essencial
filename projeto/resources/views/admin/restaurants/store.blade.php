@@ -1,4 +1,4 @@
-<h1>Inserting restaurants</h1>
+<h1>Inserting restaurant</h1>
 
 <hr>
 
