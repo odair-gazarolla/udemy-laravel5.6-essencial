@@ -2,6 +2,8 @@
 
 <hr>
 
+{{var_dump($errors->all())}}
+
 <form action="{{route('restaurant.store')}}" method="post">
     {{csrf_field()}}
     {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"> --}}
