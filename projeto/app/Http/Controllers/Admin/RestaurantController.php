@@ -46,6 +46,9 @@ class RestaurantController extends Controller
     {
         $restaurantData = $request->all();
 
+        //Returns an array with the fields in wich has been validated
+        $validated = $request->validated();
+
         $restaurant = new Restaurant();
         $restaurant->create($restaurantData);
 
@@ -81,9 +84,12 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(RestaurantRequest $request, $id)
     {
         $restaurantData = $request->all();
+
+        //Returns an array with the fields in wich has been validated
+        $validated = $request->validated();
 
         $restaurant = Restaurant::findOrFail($id);
         $restaurant->update($restaurantData);
