@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Restaurant;
-use App\Http\Requests\RestaurantRequest;
+use App\User;
+use App\Http\Requests\UserRequest;
 
-class RestaurantController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,14 +16,14 @@ class RestaurantController extends Controller
      */
     public function index()
     {
-        $restaurants = Restaurant::all();
+        $users = User::all();
 
-        return view('admin.restaurants.index', compact('restaurants'));
+        return view('admin.users.index', ['users' => $users]);
     }
 
     public function new()
     {
-        return view('admin.restaurants.store');
+        return view('admin.users.store');
     }
 
     /**
@@ -42,17 +42,17 @@ class RestaurantController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RestaurantRequest $request)
+    public function store(UserRequest $userRequest)
     {
-        $restaurantData = $request->all();
+        $userData = $userRequest->all();
 
         //Returns an array with the fields in wich has been validated
-        $validated = $request->validated();
+        $validated = $userRequest->validated();
 
-        $restaurant = new Restaurant();
-        $restaurant->create($restaurantData);
+        $user = new User();
+        $user->create($userData);
 
-        flash("Restaurant has been successfuly registered!")->success();
+        flash("User has been successfuly registered!")->success();
         return $this->redirectToIndex();
     }
 
@@ -73,9 +73,9 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Restaurant $restaurant)
+    public function edit(User $user)
     {
-        return view('admin.restaurants.edit', ['restaurant' => $restaurant]);
+        return view('admin.users.edit', ['user' => $user]);
     }
 
     /**
@@ -85,17 +85,17 @@ class RestaurantController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(RestaurantRequest $request, $id)
+    public function update(UserRequest $userRequest, $id)
     {
-        $restaurantData = $request->all();
+        $userData = $userRequest->all();
 
         //Returns an array with the fields in wich has been validated
-        $validated = $request->validated();
+        $validated = $userRequest->validated();
 
-        $restaurant = Restaurant::findOrFail($id);
-        $restaurant->update($restaurantData);
+        $user = User::findOrFail($id);
+        $user->update($userData);
 
-        flash("Restaurant has been successfuly changed!")->success();
+        flash("User has been successfuly changed!")->success();
         return $this->redirectToIndex();
     }
 
@@ -107,15 +107,15 @@ class RestaurantController extends Controller
      */
     public function destroy($id)
     {
-        $restaurant = Restaurant::findOrFail($id);
-        $restaurant->delete();
+        $user = User::findOrFail($id);
+        $user->delete();
 
-        flash("Restaurant has been successfuly removed!")->success();
+        flash("User has been successfuly removed!")->success();
         return $this->redirectToIndex();
     }
 
     private function redirectToIndex()
     {
-        return redirect()->route('restaurant.index');
+        return redirect()->route('user.index');
     }
 }
