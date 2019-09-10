@@ -16,18 +16,39 @@
                 <p>
                     <address>Address: {{ $restaurant->address }}</address>
                 </p>
-                <hr>
+            </div>
 
-                <div class="col-12">
-                    <h2>Menus</h2>
-                    <ul class="list-group">
-                        @foreach($restaurant->menus as $menu)
-                            <li class="list-group-item">
-                                {{ $menu->name }}
-                                R$ {{ $menu->price }}
-                            </li>
+            <hr>
+
+            <div class="col-12">
+                <h2>Menus</h2>
+                <ul class="list-group">
+                    @foreach($restaurant->menus as $menu)
+                        <li class="list-group-item">
+                            {{ $menu->name }}
+                            R$ {{ $menu->price }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+
+            <div class="col-12">
+                <h2>Photos</h2>
+                <div class="row">
+                    @if($restaurant->photos->count())
+
+                        @foreach($restaurant->photos as $photo)
+                            <div class="col-4">
+                                <img src="{{ asset('/images/' . $photo->photo) }}" class="img-fluid">
+                            </div>
                         @endforeach
-                    </ul>
+
+                    @else
+
+                        <div class="col-12">
+                            <span class="alert alert-warning">No images</span>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

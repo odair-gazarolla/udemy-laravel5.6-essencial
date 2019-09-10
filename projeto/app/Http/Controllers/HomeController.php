@@ -29,9 +29,13 @@ class HomeController extends Controller
         return view('home', ['restaurants' => $restaurants]);
     }
 
-    public function show($id)
+    public function show(Restaurant $slug)
     {
-        $restaurant = Restaurant::findOrFail($id);
+        //Using a normal route
+        // $restaurant = Restaurant::whereSlug($slug)->first();
+
+        //overriding route model binding --> getRouteKeyName on model
+        $restaurant = $slug;
         return view('single', compact('restaurant'));
     }
 }

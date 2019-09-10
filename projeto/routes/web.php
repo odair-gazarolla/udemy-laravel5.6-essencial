@@ -12,31 +12,34 @@
 */
 
 Route::get('/', 'HomeController@index')->name('home');
-Route::get('/restaurant/{id}', 'HomeController@show')->name('home.single');
+Route::get('/restaurant/{slug}', 'HomeController@show')->name('home.single');
 
 Route::group(['middleware' => ['auth']], function() {
 
 	Route::namespace('Admin')->prefix('admin')->group(function() {
 
-		Route::name('restaurant.')->group(function() {
+		Route::name('restaurant.')->prefix('restaurants')->group(function() {
 
-			Route::get('restaurants', 'RestaurantController@index')
+			Route::get('/', 'RestaurantController@index')
 				->name('index');
 
-			Route::get('restaurants/new', 'RestaurantController@new')
+			Route::get('/new', 'RestaurantController@new')
 				->name('new');
 
-			Route::post('restaurants/store', 'RestaurantController@store')
+			Route::post('/store', 'RestaurantController@store')
 				->name('store');
 
-			Route::get('restaurants/edit/{restaurant}', 'RestaurantController@edit')
+			Route::get('/edit/{restaurant}', 'RestaurantController@edit')
 				->name('edit');
 
-			Route::post('restaurants/update/{id}', 'RestaurantController@update')
+			Route::post('/update/{id}', 'RestaurantController@update')
 				->name('update');
 
-			Route::get('restaurants/remove/{id}', 'RestaurantController@destroy')
+			Route::get('/remove/{id}', 'RestaurantController@destroy')
 				->name('remove');
+
+			Route::get('/photos/{id}', 'RestaurantPhotoController@index')->name('photo');
+			Route::post('/photos/{id}', 'RestaurantPhotoController@store')->name('photo.save');
 		});
 
 		Route::name('user.')->group(function() {
