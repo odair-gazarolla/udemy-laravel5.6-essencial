@@ -14,21 +14,35 @@
 			<p class="form-group">
 				<label>Name</label>
 				<input type="textarea" name="name" class="form-control @error('name') is-invalid @enderror" value="{{old('name')}}">
-				<span class="invalid-feedback">
-					@error('name')
+				@error('name')
+					<span class="invalid-feedback">
 						<strong> {{ $message }} </strong>
-					@endif
-				</span>
+					</span>
+				@endif
 			</p>
 
 			<p class="form-group">
 				<label>Price</label>
 				<input type="text" name="price" class="form-control @error('price') is-invalid @enderror" value="{{old('price')}}">
-				<span class="invalid-feedback">
-					@error('price')
+				@error('price')
+					<span class="invalid-feedback">
 						<strong> {{ $message }} </strong>
-					@enderror
-				</span>
+					</span>
+				@enderror
+			</p>
+
+			<p class="form-group">
+				<label>Restaurant</label>
+				<select name="restaurant_id" class="form-control @error('restaurant_id') is-invalid @enderror">
+					@foreach($restaurants as $restaurant)
+						<option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+					@endforeach
+				</select>
+				@error('restaurant_id')
+					<span class="invalid-feedback">
+						<strong>{{ $message }}</strong>
+					</span>
+				@enderror
 			</p>
 
 			<input type="submit" value="Register" class="btn btn-success btn-lg">

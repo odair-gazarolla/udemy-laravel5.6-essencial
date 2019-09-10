@@ -31,6 +31,20 @@
 				</span>
 			</p>
 
+			<p class="form-group">
+				<label>Restaurants</label>
+				<select name="restaurant_id" class="form-control @error('restaurant_id') is-invalid @enderror">
+					<option value="">Select</option>
+					@foreach($restaurants as $restaurant)
+						@if($menu->restaurant->id == $restaurant->id)
+							<option selected value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+						@else
+							<option value="{{ $restaurant->id }}">{{ $restaurant->name }}</option>
+						@endif
+					@endforeach
+				</select>
+			</p>
+
 			<input type="submit" value="Update" class="btn btn-success btn-lg">
 
 		</form>

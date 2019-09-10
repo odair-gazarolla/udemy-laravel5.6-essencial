@@ -25,7 +25,8 @@ class MenuRequest extends FormRequest
     {
         return [
             'name' => ['required', 'min:5'],
-            'price' => ['required']
+            'price' => ['required'],
+            'restaurant_id' => ['required']
         ];
     }
 }

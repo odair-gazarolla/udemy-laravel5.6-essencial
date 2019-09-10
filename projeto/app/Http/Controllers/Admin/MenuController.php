@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Menu;
+use App\Restaurant;
 use App\Http\Requests\MenuRequest;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
@@ -16,14 +18,16 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = Menu::all();
-
+        // $menus = Menu::all();
+        $restaurants = Auth::user()->restaurants()->select('id')->get()->toArray();
+        $menus = Menu::whereIn('restaurant_id', $restaurants)->get();
         return view('admin.menus.index', ['menus' => $menus]);
     }
 
     public function new()
     {
-        return view('admin.menus.store');
+        $restaurants = Auth::user()->restaurants()->select(['id', 'name'])->get();
+        return view('admin.menus.store', compact('restaurants'));
     }
 
     /**
@@ -49,8 +53,8 @@ class MenuController extends Controller
         //Returns an array with the fields in wich has been validated
         $validated = $MenuRequest->validated();
 
-        $menu = new Menu();
-        $menu->create($menuData);
+        $restaurant = Restaurant::find($menuData['restaurant_id']);
+        $restaurant->menus()->create($menuData);
 
         flash("Menu has been successfuly registered!")->success();
         return $this->redirectToIndex();
@@ -75,7 +79,8 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        return view('admin.menus.edit', ['menu' => $menu]);
+        $restaurants = Restaurant::all();
+        return view('admin.menus.edit', ['menu' => $menu, 'restaurants' => $restaurants]);
     }
 
     /**
@@ -93,6 +98,7 @@ class MenuController extends Controller
         $validated = $menuRequest->validated();
 
         $menu = Menu::findOrFail($id);
+        $menu->restaurant()->associate($menuData['restaurant_id']);
         $menu->update($menuData);
 
         flash("Menu has been successfuly changed!")->success();

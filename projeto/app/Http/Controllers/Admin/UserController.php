@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -16,8 +17,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-
+        // $users = User::all();
+        $users = User::where('id', Auth::user()->id)->get();
         return view('admin.users.index', ['users' => $users]);
     }
 

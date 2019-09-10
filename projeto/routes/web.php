@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
+Route::get('/restaurant/{id}', 'HomeController@show')->name('home.single');
 
 Route::group(['middleware' => ['auth']], function() {
 
@@ -87,4 +86,15 @@ Route::group(['middleware' => ['auth']], function() {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/rel', function() {
+
+	$restaurant = \App\Restaurant::find(1);
+	print $restaurant->name;
+	print '<br>';
+	foreach ($restaurant->menus as $menu) {
+
+		print "Item: {$menu->name} - Price: R$ {$menu->price}<br>";
+	}
+});
